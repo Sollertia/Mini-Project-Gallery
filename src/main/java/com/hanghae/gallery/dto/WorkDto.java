@@ -15,4 +15,6 @@ public class WorkDto {
     private String workMade;
     private String workDesc;
     private Long artistId;
+    private String image;
+
 }
