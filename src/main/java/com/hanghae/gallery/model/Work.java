@@ -32,13 +32,19 @@ public class Work {
     private String workDesc;
 
     @Column(nullable = false)
+    private String image;
+
+    @Column(nullable = false)
     private Long artistId;
+
+
 
     public Work(WorkDto workDto){
         this.artistId = workDto.getArtistId();
         this.workDesc = workDto.getWorkDesc();
         this.workMade = workDto.getWorkMade();
         this.workSize = workDto.getWorkSize();
+        this.image = workDto.getImage();
         this.workMaterial = workDto.getWorkMaterial();
         this.workTitle = workDto.getWorkTitle();
     }
