@@ -1,5 +1,6 @@
 package com.hanghae.gallery.model;
 
+import com.hanghae.gallery.dto.UserDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,4 +32,13 @@ public class User {
 
     //likeArtist 칼럼 구현
 
+    //일반 회원가입 user
+    public User(UserDto userDto){
+        this.nickname = userDto.getNickname();
+        this.username = userDto.getUsername();
+        this.password = userDto.getPassword();
+        this.kakaoId = null;
+
+    }
+    //카카오 회원가입 user
 }

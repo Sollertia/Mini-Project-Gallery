@@ -1,11 +1,14 @@
 package com.hanghae.gallery.model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.hanghae.gallery.dto.WorkDto;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 
+@NoArgsConstructor
+@Getter
+@Entity
 public class Work {
 
 
@@ -30,5 +33,14 @@ public class Work {
 
     @Column(nullable = false)
     private Long artistId;
+
+    public Work(WorkDto workDto){
+        this.artistId = workDto.getArtistId();
+        this.workDesc = workDto.getWorkDesc();
+        this.workMade = workDto.getWorkMade();
+        this.workSize = workDto.getWorkSize();
+        this.workMaterial = workDto.getWorkMaterial();
+        this.workTitle = workDto.getWorkTitle();
+    }
 
 }
