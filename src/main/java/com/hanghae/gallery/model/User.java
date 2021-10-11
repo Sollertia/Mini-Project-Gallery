@@ -1,9 +1,7 @@
 package com.hanghae.gallery.model;
-
 import com.hanghae.gallery.dto.UserDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,9 @@ public class User {
     @Column(unique = true)
     private Long kakaoId;
 
-    //likeArtist 칼럼 구현
+    //테이블에 따로 저장 안됨 repository 이용할 수 있을듯.
+    @OneToMany(mappedBy = "user")
+    private List<Follow> followList = new ArrayList<>();
 
     //일반 회원가입 user
     public User(UserDto userDto){
@@ -38,7 +38,6 @@ public class User {
         this.username = userDto.getUsername();
         this.password = userDto.getPassword();
         this.kakaoId = null;
-
     }
     //카카오 회원가입 user
 }

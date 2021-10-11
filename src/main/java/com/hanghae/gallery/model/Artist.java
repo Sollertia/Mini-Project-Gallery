@@ -1,10 +1,9 @@
 package com.hanghae.gallery.model;
-
 import com.hanghae.gallery.dto.ArtistDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+
 
 @NoArgsConstructor
 @Getter
@@ -37,6 +36,7 @@ public class Artist {
 
     // 작가 설명 수정시 사용합니다
     public void updateArtistDesc(String artistDesc){
+
         this.artistDesc=artistDesc;
     }
 

@@ -1,16 +1,14 @@
 package com.hanghae.gallery.model;
-
-import com.hanghae.gallery.dto.WorkDto;
+import com.hanghae.gallery.dto.WorkRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+
 
 @NoArgsConstructor
 @Getter
 @Entity
 public class Work {
-
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -37,16 +35,14 @@ public class Work {
     @Column(nullable = false)
     private Long artistId;
 
-
-
-    public Work(WorkDto workDto){
-        this.artistId = workDto.getArtistId();
-        this.workDesc = workDto.getWorkDesc();
-        this.workMade = workDto.getWorkMade();
-        this.workSize = workDto.getWorkSize();
-        this.image = workDto.getImage();
-        this.workMaterial = workDto.getWorkMaterial();
-        this.workTitle = workDto.getWorkTitle();
+    //클라이언트 -> 서버 (작가id없음)
+    public void workSaveInfo(WorkRequestDto workRequestDto){
+        this.workDesc = workRequestDto.getWorkDesc();
+        this.workMade = workRequestDto.getWorkMade();
+        this.workSize = workRequestDto.getWorkSize();
+        this.image = workRequestDto.getImage();
+        this.workMaterial = workRequestDto.getWorkMaterial();
+        this.workTitle = workRequestDto.getWorkTitle();
     }
 
 }
