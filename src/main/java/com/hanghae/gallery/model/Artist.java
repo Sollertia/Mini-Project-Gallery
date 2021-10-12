@@ -29,8 +29,8 @@ public class Artist {
     private String artistDesc;
 
     // 산하님이 만들어주신 Follow와 매핑  Follow 만든거는 아주 훌륭합니다.
-    @OneToMany(mappedBy = "artist")
-    private List<Follow> follws = new ArrayList<>();
+//    @OneToMany(mappedBy = "artist")
+//    private List<Follow> follws = new ArrayList<>();
 
 
     //작가 회원가입 시 사용합니다
