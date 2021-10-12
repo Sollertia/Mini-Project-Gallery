@@ -28,7 +28,8 @@ public class User {
     @Column(unique = true)
     private Long kakaoId;
 
-    //테이블에 따로 저장 안됨 repository 이용할 수 있을듯.
+    //테이블에 따로 저장 안됨
+    //연관관계 명시
     @OneToMany(mappedBy = "user")
     private List<Follow> followList = new ArrayList<>();
 
