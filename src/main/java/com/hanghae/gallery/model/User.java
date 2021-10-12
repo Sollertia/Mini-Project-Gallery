@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 public class User {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
 
@@ -28,13 +28,10 @@ public class User {
     @Column(unique = true)
     private Long kakaoId;
 
-    // 산하님이 만들어주신 Follow와 매핑  Follow 만든거는 아주 훌륭합니다.
+    //테이블에 따로 저장 안됨
+    //연관관계 명시
     @OneToMany(mappedBy = "user")
-    private List<Follow> follws = new ArrayList<>();
-
-    //테이블에 따로 저장 안됨 repository 이용할 수 있을듯.
-//    @OneToMany(mappedBy = "user")
-//    private List<Artist> followList = new ArrayList<>();
+    private List<Follow> followList = new ArrayList<>();
 
     //일반 회원가입 user
     public User(UserDto userDto){
