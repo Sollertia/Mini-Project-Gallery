@@ -3,6 +3,8 @@ import com.hanghae.gallery.dto.ArtistDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -10,7 +12,7 @@ import javax.persistence.*;
 @Entity
 public class Artist {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
@@ -25,6 +27,11 @@ public class Artist {
 
     @Column(nullable = false)
     private String artistDesc;
+
+    // 산하님이 만들어주신 Follow와 매핑  Follow 만든거는 아주 훌륭합니다.
+    @OneToMany(mappedBy = "artist")
+    private List<Follow> follws = new ArrayList<>();
+
 
     //작가 회원가입 시 사용합니다
     public Artist(ArtistDto artistDto){
