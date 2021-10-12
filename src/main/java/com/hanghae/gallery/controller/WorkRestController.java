@@ -8,12 +8,12 @@ import com.hanghae.gallery.service.WorkService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class WorkController {
+public class WorkRestController {
 
     private final WorkRepository workRepository;
     private final WorkService workService;
 
-    public WorkController(WorkRepository workRepository,WorkService workService){
+    public WorkRestController(WorkRepository workRepository, WorkService workService){
         this.workRepository = workRepository;
         this.workService = workService;
     }
