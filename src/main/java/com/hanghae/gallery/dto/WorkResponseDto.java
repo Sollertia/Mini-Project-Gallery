@@ -7,7 +7,6 @@ import lombok.Setter;
 
 //서버 -> 클라이언트 보낼 때
 @Getter
-@Setter
 @NoArgsConstructor
 public class WorkResponseDto {
 
