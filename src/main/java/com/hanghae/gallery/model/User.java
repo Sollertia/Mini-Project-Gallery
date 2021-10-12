@@ -1,5 +1,4 @@
 package com.hanghae.gallery.model;
-import com.hanghae.gallery.dto.UserDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -25,8 +24,10 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(unique = true)
-    private Long kakaoId;
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private RoleEnum role;
+
 
     //테이블에 따로 저장 안됨
     //연관관계 명시
@@ -34,11 +35,12 @@ public class User {
     private List<Follow> followList = new ArrayList<>();
 
     //일반 회원가입 user
-    public User(UserDto userDto){
-        this.nickname = userDto.getNickname();
-        this.username = userDto.getUsername();
-        this.password = userDto.getPassword();
-        this.kakaoId = null;
+    public User(String username, String password, String nickname, RoleEnum role){
+        this.username = username;
+        this.nickname = nickname;
+        this.password = password;
+        this.role = role;
     }
-    //카카오 회원가입 user
+
+
 }

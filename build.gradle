@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation "org.springframework.boot:spring-boot-starter-validation"
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
@@ -29,7 +29,19 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // JSON 처리 관련 - JWT에서 정보 추출 및 조합 용
+    implementation 'org.json:json:20210307'
+    compileOnly "com.fasterxml.jackson.core:jackson-databind:2.9.4"
+
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+    // 타임리프
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.5.4'
+
+
 }
 
 test {

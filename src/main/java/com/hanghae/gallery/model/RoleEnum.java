@@ -1,13 +1,13 @@
 package com.hanghae.gallery.model;
 
-public enum UserRoleEnum {
+public enum RoleEnum {
     USER(Authority.USER),  // 사용자 권한
     ARTIST(Authority.ARTIST), // 작가 권한
     ADMIN(Authority.ADMIN);  // 관리자 권한
 
     private final String authority;
 
-    UserRoleEnum(String authority) {
+    RoleEnum(String authority) {
         this.authority = authority;
     }
 

@@ -1,16 +1,13 @@
 package com.hanghae.gallery.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@Setter
 @Getter
-@AllArgsConstructor
-public class UserDto {
+public class LoginRequestDto {
 
     private String username;
-    private String nickname;
     private String password;
-    private String kakaoId;
-
+    private String isArtist;
 }

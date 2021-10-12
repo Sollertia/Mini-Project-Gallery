@@ -1,10 +1,7 @@
 package com.hanghae.gallery.model;
-import com.hanghae.gallery.dto.ArtistDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @NoArgsConstructor
@@ -28,17 +25,22 @@ public class Artist {
     @Column(nullable = false)
     private String artistDesc;
 
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private RoleEnum role;
+
     // 산하님이 만들어주신 Follow와 매핑  Follow 만든거는 아주 훌륭합니다.
 //    @OneToMany(mappedBy = "artist")
-//    private List<Follow> follws = new ArrayList<>();
+//    private List<Follow> followList = new ArrayList<>();
 
 
     //작가 회원가입 시 사용합니다
-    public Artist(ArtistDto artistDto){
-        this.username = artistDto.getUsername();
+    public Artist(String username, String password, String nickname, RoleEnum role){
         this.artistDesc = "";
-        this.nickname = artistDto.getNickname();
-        this.password = artistDto.getPassword();
+        this.username = username;
+        this.nickname = nickname;
+        this.password = password;
+        this.role = role;
     }
 
     // 작가 설명 수정시 사용합니다

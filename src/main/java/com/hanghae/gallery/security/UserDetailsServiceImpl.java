@@ -1,8 +1,8 @@
 package com.hanghae.gallery.security;
 
+import com.hanghae.gallery.model.User;
 import com.hanghae.gallery.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
