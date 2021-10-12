@@ -1,13 +1,10 @@
 package com.hanghae.gallery.service;
 
+import com.hanghae.gallery.dto.FollowDto;
 import com.hanghae.gallery.dto.WorkRequestDto;
-import com.hanghae.gallery.model.Artist;
-import com.hanghae.gallery.model.Follow;
-import com.hanghae.gallery.model.User;
-import com.hanghae.gallery.model.Work;
+import com.hanghae.gallery.model.*;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.FollowRepository;
-import com.hanghae.gallery.repository.UserRepository;
 import com.hanghae.gallery.repository.WorkRepository;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +42,27 @@ public class WorkService {
         Artist artist = artistRepository.getById(artistId);
 
         return Optional.ofNullable(followRepository.findByArtistAndUser(artist, user));
+
+    }
+
+    public FollowEnum codeSetHeandler(Optional<Follow> follow,User user){
+        if (user == null) { //비로그인 유저
+
+            //("N","false")
+            return FollowEnum.NON_USER_UNFOLLOW;
+
+        }else if (follow.isPresent()) {//값이 있으면
+
+            //("Y","true")
+            return FollowEnum.USER_FOLLOW;
+
+        } else { // 값이 null이면
+
+            //("N","true")
+            return FollowEnum.USER_UNFOLLOW;
+
+        }
+
 
     }
 }
