@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @NoArgsConstructor
+@Setter
 @Getter
 @Entity
 public class Follow {
