@@ -1,11 +1,13 @@
 package com.hanghae.gallery.controller;
 
+import com.hanghae.gallery.dto.FollowDto;
 import com.hanghae.gallery.dto.WorkRequestDto;
-import com.hanghae.gallery.dto.WorkResponseDto;
-import com.hanghae.gallery.model.Work;
+import com.hanghae.gallery.model.*;
 import com.hanghae.gallery.repository.WorkRepository;
 import com.hanghae.gallery.service.WorkService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 public class WorkRestController {
@@ -13,21 +15,47 @@ public class WorkRestController {
     private final WorkRepository workRepository;
     private final WorkService workService;
 
+
     public WorkRestController(WorkRepository workRepository, WorkService workService){
+
         this.workRepository = workRepository;
         this.workService = workService;
     }
 
 
     //작품 상세
-    @GetMapping("/work/detail")
-    public WorkResponseDto getWork(@RequestParam Long id){
-        Work work = workRepository.findById(id).orElseThrow(
-                ()-> new IllegalArgumentException("해당 작품을 찾을 수 없습니다."));
+    @GetMapping("/work/detail?id=id값")
+    public FollowDto getWork(@RequestParam Long workId, User user,FollowEnum responseCodeSet) { // User user부분 나중에 Userdetails로 변경
 
-        return new WorkResponseDto(work);
+        Work work = workRepository.findById(workId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 작품을 찾을 수 없습니다."));
+        Optional<Follow> follow = workService.getUserAndArtist(workId, user);
+        Artist artist = follow.get().getArtist();
+        if (user == null) { //비로그인 유저
 
+            //("N","false")
+            responseCodeSet = FollowEnum.NON_USER_UNFOLLOW;
+
+        } else if (follow.isPresent()) {//값이 있으면
+
+            //("Y","true")
+            responseCodeSet = FollowEnum.USER_FOLLOW;
+
+        } else { // 값이 null이면
+
+            //("N","true")
+            responseCodeSet = FollowEnum.USER_UNFOLLOW;
+
+        }
+
+        return new FollowDto(artist, work, responseCodeSet);
     }
+
+
+
+
+
+
 
     //작품 수정
     @PostMapping("/work/update")
@@ -50,5 +78,4 @@ public class WorkRestController {
                 .orElseThrow(()-> new IllegalArgumentException("해당 작품을 찾을 수 없습니다."));
         workRepository.delete(work);
     }
-
 }
