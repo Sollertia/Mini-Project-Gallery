@@ -1,9 +1,7 @@
 package com.hanghae.gallery.service;
 
-import com.hanghae.gallery.dto.FollowDto;
 import com.hanghae.gallery.dto.WorkRequestDto;
 import com.hanghae.gallery.model.*;
-import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.FollowRepository;
 import com.hanghae.gallery.repository.WorkRepository;
 import org.springframework.stereotype.Service;
@@ -15,14 +13,14 @@ import java.util.Optional;
 public class WorkService {
 
     private final WorkRepository workRepository;
-    private final ArtistRepository artistRepository;
+
 
     private final FollowRepository followRepository;
 
 
-    public WorkService(ArtistRepository artistRepository,WorkRepository workRepository,FollowRepository followRepository){
+    public WorkService(WorkRepository workRepository,FollowRepository followRepository){
         this.followRepository = followRepository;
-        this.artistRepository = artistRepository;
+
         this.workRepository = workRepository;
     }
 
@@ -35,17 +33,15 @@ public class WorkService {
     }
 
     // 유저 팔로우 목록에 해당 작가가 있는 지 판단 후 있으면 유저와 작가를, 없으면  null을 리턴
-    public Optional<Follow> getUserAndArtist(Long workId, User user) {
-        Work work = workRepository.findById(workId).orElseThrow(
-                ()-> new IllegalArgumentException("해당 작품을 찾을 수 없습니다."));
-        Long artistId =work.getArtistId();
-        Artist artist = artistRepository.getById(artistId);
+    public Optional<Follow> getUserAndArtist(Artist artist, User user) {
 
-        return Optional.ofNullable(followRepository.findByArtistAndUser(artist, user));
-
+        return Optional.ofNullable(  followRepository.findByArtistAndUser(artist, user)  );
     }
 
-    public FollowEnum codeSetHeandler(Optional<Follow> follow,User user){
+
+
+    public FollowEnum codeSetHeandler(Optional<Follow> follow, User user){
+
         if (user == null) { //비로그인 유저
 
             //("N","false")
@@ -65,4 +61,5 @@ public class WorkService {
 
 
     }
+
 }
