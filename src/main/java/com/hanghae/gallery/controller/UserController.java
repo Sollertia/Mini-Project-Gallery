@@ -1,15 +1,16 @@
 package com.hanghae.gallery.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hanghae.gallery.dto.LoginRequestDto;
 import com.hanghae.gallery.dto.SignupRequestDto;
 import com.hanghae.gallery.exception.UserSignException;
 import com.hanghae.gallery.model.Artist;
-import com.hanghae.gallery.model.RoleEnum;
 import com.hanghae.gallery.model.User;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.UserRepository;
 import com.hanghae.gallery.security.JwtTokenProvider;
 import com.hanghae.gallery.service.UserService;
+import com.hanghae.gallery.service.KakaoUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.Errors;
@@ -17,6 +18,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final ArtistRepository artistRepository;
+    private final KakaoUserService kakaoUserService;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
@@ -111,6 +114,12 @@ public class UserController {
             return all;
 
         }
+    }
+    // 카카오 유저 정보 받기
+    @GetMapping("/user/kakao/callback")
+    public String kakaoLogin(@RequestParam String code) throws IOException {
+        kakaoUserService.kakaoLogin(code);
+        return "redirect:/";
     }
 }
 

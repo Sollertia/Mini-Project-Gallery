@@ -28,6 +28,8 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private RoleEnum role;
 
+    @Column(nullable = true)
+    private Long kakaoId;
 
     //테이블에 따로 저장 안됨
     //연관관계 명시
@@ -41,6 +43,13 @@ public class User {
         this.password = password;
         this.role = role;
     }
-
+    // 카카오 로그인
+    public User(String nickname, String password, String username, RoleEnum role, Long kakaoId){
+        this.nickname = nickname;
+        this.username = username;
+        this.password = password;
+        this.kakaoId = kakaoId;
+        this.role = role;
+    }
 
 }
