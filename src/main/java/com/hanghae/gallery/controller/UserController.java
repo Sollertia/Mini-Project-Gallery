@@ -1,6 +1,5 @@
 package com.hanghae.gallery.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hanghae.gallery.dto.LoginRequestDto;
 import com.hanghae.gallery.dto.SignupRequestDto;
 import com.hanghae.gallery.exception.UserSignException;
@@ -9,8 +8,8 @@ import com.hanghae.gallery.model.User;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.UserRepository;
 import com.hanghae.gallery.security.JwtTokenProvider;
-import com.hanghae.gallery.service.UserService;
 import com.hanghae.gallery.service.KakaoUserService;
+import com.hanghae.gallery.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.Errors;
@@ -19,7 +18,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -83,22 +85,7 @@ public class UserController {
 
 
         // 유저 인지 아티스트 인지 비교
-        if (loginRequestDto.getIsArtist().equals("artist")) {
-
-            Artist artist = artistRepository.findByUsername(loginRequestDto.getUsername())
-                    .orElseThrow(() -> new UserSignException(("해당 작가는 없습니다.")));
-            if (!passwordEncoder.matches(loginRequestDto.getPassword(), artist.getPassword())) {
-                throw new UserSignException("잘못된 비밀번호입니다.");
-            }
-
-           token.put("token", jwtTokenProvider.createToken(artist.getUsername(),artist.getRole())); // 토큰에 이름, 역할 부여, 역할로 누군지 구분 가능
-
-            role.put("role", "artist");
-            all.add(token);
-            all.add(role);
-            return all;
-
-        } else {
+        if (loginRequestDto.getIsArtist().equals("user")) {
             User user = userRepository.findByUsername(loginRequestDto.getUsername())
                     .orElseThrow(() -> new UserSignException("해당 유저는 없는 유저입니다."));
 
@@ -113,13 +100,38 @@ public class UserController {
             all.add(role);
             return all;
 
+        } else {
+            Artist artist = artistRepository.findByUsername(loginRequestDto.getUsername())
+                    .orElseThrow(() -> new UserSignException(("해당 작가는 없습니다.")));
+            if (!passwordEncoder.matches(loginRequestDto.getPassword(), artist.getPassword())) {
+                throw new UserSignException("잘못된 비밀번호입니다.");
+            }
+
+            token.put("token", jwtTokenProvider.createToken(artist.getUsername(),artist.getRole())); // 토큰에 이름, 역할 부여, 역할로 누군지 구분 가능
+
+            role.put("role", String.valueOf(artist.getId())); // 메인페이지에서 작가본인이 본인 작가페이지에 접근할 때 사용
+            all.add(token);
+            all.add(role);
+            return all;
+
         }
     }
-    // 카카오 유저 정보 받기
-    @GetMapping("/user/kakao/callback")
-    public String kakaoLogin(@RequestParam String code) throws IOException {
-        kakaoUserService.kakaoLogin(code);
-        return "redirect:/";
+    @GetMapping("/user/kakao/callback") // 카카오 로그인 JWT 처리
+    public List<Map<String, String>> kakaoLogin(@RequestParam String code) throws IOException {
+        User kakaoUser = kakaoUserService.kakaoLogin(code); // 카카오에서 보내주는 코드로 로그인계정 정보 가져오기
+        // 카카오로그인 한 유저 로그인 및 회원가입 완료되면 토큰 발급
+        Map<String, String> token = new HashMap<>();
+        Map<String, String> role = new HashMap<>();
+
+        List<Map<String, String>> all = new ArrayList<>();
+
+        token.put("token", jwtTokenProvider.createToken(kakaoUser.getUsername(),kakaoUser.getRole())); // 토큰에 이름, 역할 부여, 역할로 누군지 구분 가능
+        role.put("role", "user");
+
+        all.add(token);
+        all.add(role);
+
+        return all;
     }
 }
 
