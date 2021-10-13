@@ -5,6 +5,7 @@ import com.hanghae.gallery.security.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -20,6 +21,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
+
+    // UserService의 HttpHeaders 빈 등록
+    @Bean
+    public HttpHeaders headers(){
+        return new HttpHeaders();
+    }
 
 
     @Bean // 비밀번호 암호화해서 등록할 때 사용
