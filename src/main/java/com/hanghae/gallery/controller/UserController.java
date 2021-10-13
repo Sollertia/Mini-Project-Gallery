@@ -35,22 +35,29 @@ public class UserController {
 
     // 회원 가입 요청 처리
     @PostMapping("/user/signup")
+    // registerUser의 SignupRequestDto 와 에러를 실행하는 메소드
     public void registerUser(@Valid @RequestBody SignupRequestDto signupRequestDto, Errors errors) {
         String errorMessage;
+        // 에러 빈에 필드를 찾아서 에러메시지에 담음
         for (FieldError error : errors.getFieldErrors()) {
             errorMessage = error.getField();
+            // 받은 에러메시지를 UserSignException에 던짐
             throw new UserSignException(errorMessage);
         }
+        // 유저서비스에서 회원가입 처리
         userService.registerUser(signupRequestDto);
     }
 
     // 로그인 중복 처리
     @GetMapping("/user/redunancy")
+    // redunancy 메소드에서 url의 username과 isArtist를 받음
     public void redunancy(@RequestParam String username, @RequestParam String isArtist) {
+        // 받은 isArtist가 레포지토리에 존재하는 유저네임, artist이면 중복처리
         if (isArtist.equals("artist")) {
             artistRepository.findByUsername(username).orElseThrow(() ->
                     new UserSignException("중복된 username 입니다"));
         } else {
+            // 받은 유저네임이 레포지토리에 존재하면 중복처리
             userRepository.findByUsername(username).orElseThrow(() ->
                     new UserSignException("중복된 username 입니다"));
         }
@@ -84,7 +91,7 @@ public class UserController {
 
         // 유저 인지 아티스트 인지 비교
         if (loginRequestDto.getIsArtist().equals("artist")) {
-
+            // 아티스트 레포지토리에서
             Artist artist = artistRepository.findByUsername(loginRequestDto.getUsername())
                     .orElseThrow(() -> new UserSignException(("해당 작가는 없습니다.")));
             if (!passwordEncoder.matches(loginRequestDto.getPassword(), artist.getPassword())) {

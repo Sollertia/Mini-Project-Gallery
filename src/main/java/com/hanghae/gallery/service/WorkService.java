@@ -19,7 +19,6 @@ public class WorkService {
 
     private final WorkRepository workRepository;
     private final ArtistRepository artistRepository;
-
     private final FollowRepository followRepository;
 
 
@@ -38,12 +37,16 @@ public class WorkService {
     }
 
     // 유저 팔로우 목록에 해당 작가가 있는 지 판단 후 있으면 유저와 작가를, 없으면  null을 리턴
+    //팔로우 리스트에서 유저랑 워크아이디를 찾음
     public Optional<Follow> getUserAndArtist(Long workId, User user) {
+        // 워크레포지토리에서 워크 아이디를 찾고 없으면 예외처리
         Work work = workRepository.findById(workId).orElseThrow(
                 ()-> new IllegalArgumentException("해당 작품을 찾을 수 없습니다."));
+        // 워크레포지토리의 아티스트 아이디를 찾음
         Long artistId =work.getArtistId();
+        // 아티스트는 아티스트 레포지토리에서 찾은 아티스트 아이디
         Artist artist = artistRepository.getById(artistId);
-
+        // 팔로우
         return Optional.ofNullable(followRepository.findByArtistAndUser(artist, user));
 
     }

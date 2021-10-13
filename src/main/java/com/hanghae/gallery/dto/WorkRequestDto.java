@@ -16,5 +16,4 @@ public class WorkRequestDto {
     private String workMaterial;
     private String workMade;
 
-
 }

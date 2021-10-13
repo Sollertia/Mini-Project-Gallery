@@ -24,6 +24,7 @@ public class UserService {
     public void registerUser(SignupRequestDto signupRequestDto) {
         RoleEnum role;
         String errorMessage;
+        // signupRequestDto에서 유저네임 가져옴
         String username = signupRequestDto.getUsername();
 
         // 패스워드 속에 아이디 값 중복 확인
@@ -37,12 +38,15 @@ public class UserService {
 
         // nickname
         String nickname = signupRequestDto.getNickname();
-
+        // 회원가입 시에 IsArtist가 artist이면
         if(signupRequestDto.getIsArtist().equals("artist")){
+            // 아티스트 권한으로
             role = RoleEnum.ARTIST;
+            // 아티스트 레포지토리에 정보를 저장
             Artist artist = new Artist(username, password, nickname, role);
             artistRepository.save(artist);
         }else{
+            // 일반 유저면 유저레포지토리에 정보를 저장
             role = RoleEnum.USER;
             User user = new User(username, password, nickname, role);
             userRepository.save(user);
