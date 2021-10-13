@@ -2,6 +2,7 @@ package com.hanghae.gallery.service;
 
 
 import com.hanghae.gallery.dto.ArtistInfoDto;
+import com.hanghae.gallery.exception.NoFoundException;
 import com.hanghae.gallery.model.Artist;
 import com.hanghae.gallery.model.User;
 import com.hanghae.gallery.repository.ArtistRepository;
@@ -20,8 +21,8 @@ public class ArtistService {
 
     @Transactional
     public void updateInfo(ArtistInfoDto artistInfoDto, User user){
-        Artist artist = artistRepository.findById(user.getId())
-                .orElseThrow(()-> new IllegalArgumentException("해당 계정을 찾을 수 없습니다."));
+        Artist artist = artistRepository.findById(user.getId()).orElseThrow(()->
+                new NoFoundException("해당 계정을 찾을 수 없습니다."));
 
         artist.updateArtistDesc(artistInfoDto);
 

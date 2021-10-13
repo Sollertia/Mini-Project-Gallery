@@ -2,6 +2,7 @@ package com.hanghae.gallery.controller;
 
 import com.hanghae.gallery.dto.FollowDto;
 import com.hanghae.gallery.dto.WorkRequestDto;
+import com.hanghae.gallery.exception.NoFoundException;
 import com.hanghae.gallery.model.*;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.WorkRepository;
@@ -29,8 +30,8 @@ public class WorkRestController {
     //작품 상세
     @GetMapping("/work/detail")
     public FollowDto getWork(@RequestParam Long workId, User user) { // User user부분 나중에 Userdetails로 변경
-        Work work = workRepository.findById(workId).orElseThrow(
-                ()-> new IllegalArgumentException("해당 작품을 찾을 수 없습니다."));
+        Work work = workRepository.findById(workId).orElseThrow(()->
+                new NoFoundException("해당 작품을 찾을 수 없습니다."));
         Long artistId =work.getArtistId();
         Artist artist = artistRepository.getById(artistId);
 
@@ -59,8 +60,8 @@ public class WorkRestController {
     //작품 삭제
     @PostMapping("/work/delete")
     public void delete(@RequestParam Long workId){
-        Work work = workRepository.findById(workId)
-                .orElseThrow(()-> new IllegalArgumentException("해당 작품을 찾을 수 없습니다."));
+        Work work = workRepository.findById(workId).orElseThrow(()->
+                new NoFoundException("해당 작품을 찾을 수 없습니다."));
         workRepository.delete(work);
     }
 }

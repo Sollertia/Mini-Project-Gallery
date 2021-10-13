@@ -1,6 +1,7 @@
 package com.hanghae.gallery.service;
 
 import com.hanghae.gallery.dto.WorkRequestDto;
+import com.hanghae.gallery.exception.NoFoundException;
 import com.hanghae.gallery.model.*;
 import com.hanghae.gallery.repository.FollowRepository;
 import com.hanghae.gallery.repository.WorkRepository;
@@ -27,8 +28,8 @@ public class WorkService {
     //작품 수정
     @Transactional
     public void  updateWork(WorkRequestDto workRequestDto,Long id){
-        Work work = workRepository.findById(id)
-                .orElseThrow(()->new IllegalArgumentException("해당 작품이 없습니다."));
+        Work work = workRepository.findById(id).orElseThrow(()->
+                new NoFoundException("해당 작품이 없습니다."));
         work.workSaveInfo(workRequestDto);
     }
 
