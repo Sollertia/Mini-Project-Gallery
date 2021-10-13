@@ -1,10 +1,9 @@
 package com.hanghae.gallery.model;
-import com.hanghae.gallery.dto.ArtistDto;
+import com.hanghae.gallery.dto.ArtistInfoDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 @NoArgsConstructor
@@ -55,7 +54,6 @@ public class Artist {
         this.artistDesc=artistInfoDto.getArtistDesc();
         this.artistImg = artistInfoDto.getProfileImg();
 
-        this.artistDesc=artistDesc;
     }
 
 }
