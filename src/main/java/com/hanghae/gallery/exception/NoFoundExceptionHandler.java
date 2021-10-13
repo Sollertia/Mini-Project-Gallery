@@ -8,8 +8,8 @@ public class NoFoundExceptionHandler {
 
     @ExceptionHandler(value = {NoFoundException.class})
     public ResponseEntity<Object> handleUserRequestException(NoFoundException ex){
-//        UserException userException = new UserException(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        UserException userException = new UserException(ex.getMessage(), HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<>(ex,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(userException,HttpStatus.BAD_REQUEST);
     }
 }

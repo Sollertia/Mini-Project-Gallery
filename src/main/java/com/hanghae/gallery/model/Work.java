@@ -29,7 +29,7 @@ public class Work{
     @Column(nullable = false)
     private String workDesc;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String image;
 
     @Column(nullable = false)

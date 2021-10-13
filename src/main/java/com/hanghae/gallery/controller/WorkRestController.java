@@ -37,7 +37,7 @@ public class WorkRestController {
 
         Optional<Follow> follow = workService.getUserAndArtist(artist, user);
 
-        FollowEnum responseCodeSet = workService.codeSetHeandler(follow, user);
+        FollowEnum responseCodeSet = workService.codeSetHandler(follow, user);
 
         return new FollowDto(artist,work,responseCodeSet);
     }

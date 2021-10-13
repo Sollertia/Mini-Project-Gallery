@@ -34,7 +34,6 @@ public class UserService {
 
         // 패스워드 인코딩
         String password = passwordEncoder.encode(signupRequestDto.getPassword());
-
         // nickname
         String nickname = signupRequestDto.getNickname();
 
