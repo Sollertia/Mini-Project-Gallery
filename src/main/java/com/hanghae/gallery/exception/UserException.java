@@ -6,6 +6,8 @@ public class UserException {
     private final String message;
     private final HttpStatus httpStatus;
 
+
+
     public UserException(String message, HttpStatus httpStatus) {
         this.message = message;
         this.httpStatus = httpStatus;
