@@ -4,6 +4,7 @@ import com.hanghae.gallery.dto.LoginRequestDto;
 import com.hanghae.gallery.dto.SignupRequestDto;
 import com.hanghae.gallery.exception.UserSignException;
 import com.hanghae.gallery.model.Artist;
+import com.hanghae.gallery.model.RoleEnum;
 import com.hanghae.gallery.model.User;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.UserRepository;
@@ -77,6 +78,7 @@ public class UserController {
     @PostMapping("/user/login")  // 유저와 아티스트 구분을 위해서 비교할 수 있는 값을 보내주고 JWT는 쿠키에 비교값은 로컬스토리지에 보관
     public List<Map<String, String>> login(@RequestBody LoginRequestDto loginRequestDto) { // Key, Value 형식 Map사용하기
 
+        System.out.println(loginRequestDto.getIsArtist());
         Map<String, String> token = new HashMap<>();
         Map<String, String> role = new HashMap<>();
 
@@ -94,7 +96,6 @@ public class UserController {
             }
 
             token.put("token", jwtTokenProvider.createToken(user.getUsername(),user.getRole())); // 토큰에 이름, 역할 부여, 역할로 누군지 구분 가능
-
             role.put("role", "user");
             all.add(token);
             all.add(role);
