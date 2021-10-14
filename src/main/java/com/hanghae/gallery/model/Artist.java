@@ -29,7 +29,7 @@ public class Artist {
     private String artistDesc;
 
     @Column(nullable = false)
-    private String artistImg;
+    private String artistImg="545745";
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)

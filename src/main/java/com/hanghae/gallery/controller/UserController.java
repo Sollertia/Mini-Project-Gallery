@@ -50,14 +50,15 @@ public class UserController {
         if(signupRequestDto.getPassword().contains(signupRequestDto.getUsername())) {
             errorMessage.add("password 안에 username이 있어서는 안됩니다.");
         }
-
+        StatusMsgDto statusMsgDto;
         //회원가입 성공
         if (errorMessage.isEmpty()){
             Object obj = userService.registerUser(signupRequestDto);
-            return new StatusMsgDto(StatusEnum.STATUS_SUCCESS,obj);
+            statusMsgDto = new StatusMsgDto(StatusEnum.STATUS_SUCCESS,obj);
         }else {
-            return new StatusMsgDto(StatusEnum.STATUS_FAILE,signupRequestDto);
+            statusMsgDto =  new StatusMsgDto(StatusEnum.STATUS_FAILE,signupRequestDto);
         }
+        return statusMsgDto;
 
     }
 
