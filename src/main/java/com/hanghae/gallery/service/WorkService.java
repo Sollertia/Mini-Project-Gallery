@@ -31,11 +31,11 @@ public class WorkService {
 
     //작품 수정
     @Transactional
-    public  Optional<Work> updateWork(WorkRequestDto workRequestDto, MultipartFile img){
+    public  Optional<Work> updateWork(WorkRequestDto workRequestDto, MultipartFile img) throws IOException {
         Optional<Work> work = workRepository.findById(workRequestDto.getId());
         if (work.isPresent()){
             // 기존 작품 삭제
-            File file = new File(imgStore.getFullPath(work.getImage()));
+            File file = new File(imgStore.getFullPath(work.get().getImage()));
             if (file.exists()) {
                 if (file.delete()) {
                 } else {

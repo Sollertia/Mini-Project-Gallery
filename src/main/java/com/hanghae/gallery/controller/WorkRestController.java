@@ -68,13 +68,15 @@ public class WorkRestController {
             statusMsgDto = new StatusMsgDto(StatusEnum.STATUS_FAILE, workRequestDto);
         }
         //수정할 작품이 존재할 때
-        else if (workService.updateWork(workRequestDto,file).isPresent()) {
+        Optional<Work> work = workService.updateWork(workRequestDto,file);
+        if (work.isPresent()) {
+            workRequestDto.setImage(fileDir+work.get().getImage());
             statusMsgDto = new StatusMsgDto(StatusEnum.STATUS_SUCCESS, workRequestDto);
         } else {
             statusMsgDto = new StatusMsgDto(StatusEnum.STATUS_FAILE, workRequestDto);
         }
 
-
+        return statusMsgDto;
     }
 
     //작품 등록
