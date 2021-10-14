@@ -2,8 +2,10 @@ package com.hanghae.gallery.controller;
 
 import com.hanghae.gallery.dto.LoginRequestDto;
 import com.hanghae.gallery.dto.SignupRequestDto;
+import com.hanghae.gallery.dto.StatusMsgDto;
 import com.hanghae.gallery.exception.UserSignException;
 import com.hanghae.gallery.model.Artist;
+import com.hanghae.gallery.model.StatusEnum;
 import com.hanghae.gallery.model.RoleEnum;
 import com.hanghae.gallery.model.User;
 import com.hanghae.gallery.repository.ArtistRepository;
@@ -38,13 +40,28 @@ public class UserController {
 
     // 회원 가입 요청 처리
     @PostMapping("/user/signup")
-    public void registerUser(@Valid @RequestBody SignupRequestDto signupRequestDto, Errors errors) {
-        String errorMessage;
-        for (FieldError error : errors.getFieldErrors()) {
-            errorMessage = error.getField();
-            throw new UserSignException(errorMessage);
+    public StatusMsgDto registerUser(@Valid @RequestBody SignupRequestDto signupRequestDto, Errors errors) {
+        List<String> errorMessage=new ArrayList<>();
+
+        if (errors.hasErrors()){
+            for (FieldError error : errors.getFieldErrors()) {
+                errorMessage.add(error.getField());
+            }
         }
-        userService.registerUser(signupRequestDto);
+        // 패스워드 속에 아이디 값 중복 확인
+        if(signupRequestDto.getPassword().contains(signupRequestDto.getUsername())) {
+            errorMessage.add("password 안에 username이 있어서는 안됩니다.");
+        }
+        StatusMsgDto statusMsgDto;
+        //회원가입 성공
+        if (errorMessage.isEmpty()){
+            Object obj = userService.registerUser(signupRequestDto);
+            statusMsgDto = new StatusMsgDto(StatusEnum.STATUS_SUCCESS,obj);
+        }else {
+            statusMsgDto =  new StatusMsgDto(StatusEnum.STATUS_FAILE,signupRequestDto);
+        }
+        return statusMsgDto;
+
     }
 
     // 로그인 중복 처리
@@ -78,7 +95,6 @@ public class UserController {
     @PostMapping("/user/login")  // 유저와 아티스트 구분을 위해서 비교할 수 있는 값을 보내주고 JWT는 쿠키에 비교값은 로컬스토리지에 보관
     public List<Map<String, String>> login(@RequestBody LoginRequestDto loginRequestDto) { // Key, Value 형식 Map사용하기
 
-        System.out.println(loginRequestDto.getIsArtist());
         Map<String, String> token = new HashMap<>();
         Map<String, String> role = new HashMap<>();
 
@@ -96,6 +112,7 @@ public class UserController {
             }
 
             token.put("token", jwtTokenProvider.createToken(user.getUsername(),user.getRole())); // 토큰에 이름, 역할 부여, 역할로 누군지 구분 가능
+
             role.put("role", "user");
             all.add(token);
             all.add(role);

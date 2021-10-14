@@ -4,7 +4,9 @@ import com.hanghae.gallery.model.Artist;
 
 import com.hanghae.gallery.model.FollowEnum;
 import com.hanghae.gallery.model.Work;
+import lombok.Getter;
 
+@Getter
 public class FollowDto {
     private String workTitle;
     private String workSize;

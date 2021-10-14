@@ -1,10 +1,10 @@
 package com.hanghae.gallery.model;
-
 import com.hanghae.gallery.dto.ArtistInfoDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -29,7 +29,7 @@ public class Artist {
     private String artistDesc;
 
     @Column(nullable = false)
-    private String artistImg;
+    private String artistImg="545745";
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -55,7 +55,6 @@ public class Artist {
         this.artistDesc=artistInfoDto.getArtistDesc();
         this.artistImg = artistInfoDto.getProfileImg();
 
-        this.artistDesc=artistDesc;
     }
 
 }
