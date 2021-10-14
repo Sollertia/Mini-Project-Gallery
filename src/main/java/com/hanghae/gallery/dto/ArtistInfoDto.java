@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 public class ArtistInfoDto {
+    Long id;
 
     @NotNull
     private String nickname;

@@ -33,50 +33,54 @@ public class WorkRestController {
     //작품 상세
     @GetMapping("/work/detail")
     public FollowDto getWork(@RequestParam Long workId, User user) { // User user부분 나중에 Userdetails로 변경
-        Work work = workRepository.findById(workId).orElseThrow(()->
+        Work work = workRepository.findById(workId).orElseThrow(() ->
                 new NoFoundException("해당 작품을 찾을 수 없습니다."));
-        Long artistId =work.getArtistId();
+        Long artistId = work.getArtistId();
         Artist artist = artistRepository.getById(artistId);
 
         Optional<Follow> follow = workService.getUserAndArtist(artist, user);
 
         FollowEnum responseCodeSet = workService.codeSetHandler(follow, user);
 
-        return new FollowDto(artist,work,responseCodeSet);
+        return new FollowDto(artist, work, responseCodeSet);
     }
 
 
     //작품 수정
     @PostMapping("/work/update")
-    public StatusMsgDto update(@Validated @RequestBody WorkRequestDto workRequestDto,@RequestParam Long id,Errors errors){
-        if (errors.hasErrors()){
-            return new StatusMsgDto(StatusEnum.STATUS_FAILE,workRequestDto);
-        }else{
-            workService.updateWork(workRequestDto,id);
-            return new StatusMsgDto(StatusEnum.STATUS_SUCCESS,workRequestDto);
+    public StatusMsgDto update(@Validated @RequestBody WorkRequestDto workRequestDto, Errors errors) {
+        StatusMsgDto statusMsgDto;
+        //입력값이 옳지 않을 때
+        if (errors.hasErrors()) {
+            statusMsgDto = new StatusMsgDto(StatusEnum.STATUS_FAILE, workRequestDto);
         }
-
-
+        //수정할 작품이 존재할 때
+        else if (workService.updateWork(workRequestDto).isPresent()) {
+            statusMsgDto = new StatusMsgDto(StatusEnum.STATUS_SUCCESS, workRequestDto);
+        } else {
+            statusMsgDto = new StatusMsgDto(StatusEnum.STATUS_FAILE, workRequestDto);
+        }
+        return statusMsgDto;
     }
 
     //작품 등록
     @PostMapping("/work/insert")
-    public StatusMsgDto saveWork(@Validated @RequestBody WorkRequestDto workRequestDto, Errors errors){
-        if(errors.hasErrors()){
-            return new StatusMsgDto(StatusEnum.STATUS_FAILE,workRequestDto);
-        }else{
+    public StatusMsgDto saveWork(@Validated @RequestBody WorkRequestDto workRequestDto, Errors errors) {
+        if (errors.hasErrors()) {
+            return new StatusMsgDto(StatusEnum.STATUS_FAILE, workRequestDto);
+        } else {
             Work work = new Work();
             work.workSaveInfo(workRequestDto);
             workRepository.save(work);
-            return new StatusMsgDto(StatusEnum.STATUS_SUCCESS,workRequestDto);
+            return new StatusMsgDto(StatusEnum.STATUS_SUCCESS, work);
         }
 
     }
 
     //작품 삭제
     @PostMapping("/work/delete")
-    public void delete(@RequestParam Long workId){
-        Work work = workRepository.findById(workId).orElseThrow(()->
+    public void delete(@RequestParam Long workId) {
+        Work work = workRepository.findById(workId).orElseThrow(() ->
                 new NoFoundException("해당 작품을 찾을 수 없습니다."));
         workRepository.delete(work);
     }

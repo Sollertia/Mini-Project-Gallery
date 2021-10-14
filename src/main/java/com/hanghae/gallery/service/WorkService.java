@@ -23,10 +23,15 @@ public class WorkService {
 
     //작품 수정
     @Transactional
-    public void  updateWork(WorkRequestDto workRequestDto,Long id){
-        Work work = workRepository.findById(id).orElseThrow(()->
-                new NoFoundException("해당 작품이 없습니다."));
-        work.workSaveInfo(workRequestDto);
+    public  Optional<Work> updateWork(WorkRequestDto workRequestDto){
+        Optional<Work> work = workRepository.findById(workRequestDto.getId());
+        if (work.isPresent()){
+            work.get().workSaveInfo(workRequestDto);
+            return work;
+        }else {
+            return Optional.empty();
+        }
+
     }
 
     // 유저 팔로우 목록에 해당 작가가 있는 지 판단 후 있으면 유저와 작가를, 없으면  null을 리턴
