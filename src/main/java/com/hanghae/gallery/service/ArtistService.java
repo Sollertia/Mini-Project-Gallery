@@ -20,11 +20,11 @@ public class ArtistService {
     }
 
     @Transactional
-    public Artist updateInfo(ArtistInfoDto artistInfoDto, User user){
-        Artist artist = artistRepository.findById(user.getId()).orElseThrow(()->
+    public Artist updateInfo(ArtistInfoDto artistInfoDto, Artist artist){
+        Artist newartist = artistRepository.findById(artist.getId()).orElseThrow(()->
                 new NoFoundException("해당 계정을 찾을 수 없습니다."));
 
-        artist.updateArtistDesc(artistInfoDto);
+        newartist.updateArtistDesc(artistInfoDto);
         return artist;
 
 

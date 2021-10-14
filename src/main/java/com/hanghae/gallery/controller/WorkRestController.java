@@ -62,11 +62,16 @@ public class WorkRestController {
     @PostMapping("/work/update")
     public StatusMsgDto update(@Validated @RequestPart(value="key", required=false) WorkRequestDto workRequestDto,
                                @RequestParam Long id,Errors errors, @RequestPart(value="file", required=true) MultipartFile file) throws IOException {
-        if (errors.hasErrors()){
-            return new StatusMsgDto(StatusEnum.STATUS_FAILE,workRequestDto);
-        }else{
-            workService.updateWork(workRequestDto,id, file);
-            return new StatusMsgDto(StatusEnum.STATUS_SUCCESS,workRequestDto);
+        StatusMsgDto statusMsgDto;
+        //입력값이 옳지 않을 때
+        if (errors.hasErrors()) {
+            statusMsgDto = new StatusMsgDto(StatusEnum.STATUS_FAILE, workRequestDto);
+        }
+        //수정할 작품이 존재할 때
+        else if (workService.updateWork(workRequestDto,file).isPresent()) {
+            statusMsgDto = new StatusMsgDto(StatusEnum.STATUS_SUCCESS, workRequestDto);
+        } else {
+            statusMsgDto = new StatusMsgDto(StatusEnum.STATUS_FAILE, workRequestDto);
         }
 
 

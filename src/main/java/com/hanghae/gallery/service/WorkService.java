@@ -31,26 +31,30 @@ public class WorkService {
 
     //작품 수정
     @Transactional
-    public void updateWork(WorkRequestDto workRequestDto, Long id, MultipartFile img) throws IOException {
-        Work work = workRepository.findById(id).orElseThrow(()->
-                new NoFoundException("해당 작품이 없습니다."));
-
-        // 기존 작품 삭제
-        File file = new File(imgStore.getFullPath(work.getImage()));
-        if (file.exists()) {
-            if (file.delete()) {
+    public  Optional<Work> updateWork(WorkRequestDto workRequestDto, MultipartFile img){
+        Optional<Work> work = workRepository.findById(workRequestDto.getId());
+        if (work.isPresent()){
+            // 기존 작품 삭제
+            File file = new File(imgStore.getFullPath(work.getImage()));
+            if (file.exists()) {
+                if (file.delete()) {
+                } else {
+                    throw new NoFoundException("파일 삭제 실패");
+                }
             } else {
-                throw new NoFoundException("파일 삭제 실패");
+                throw new NoFoundException("파일이 존재하지 않음");
             }
-        } else {
-            throw new NoFoundException("파일이 존재하지 않음");
+
+            // 새롭게 수정된 작품 등록
+            UploadFile uploadFile = imgStore.storeFile(img);
+            // 새롭게 수정된 작품 이름 DB저장
+            workRequestDto.setImage(uploadFile.getStoredFileName());
+            work.get().workSaveInfo(workRequestDto);
+            return work;
+        }else {
+            return Optional.empty();
         }
 
-        // 새롭게 수정된 작품 등록
-        UploadFile uploadFile = imgStore.storeFile(img);
-        // 새롭게 수정된 작품 이름 DB저장
-        workRequestDto.setImage(uploadFile.getStoredFileName());
-        work.workSaveInfo(workRequestDto);
     }
 
     // 유저 팔로우 목록에 해당 작가가 있는 지 판단 후 있으면 유저와 작가를, 없으면  null을 리턴

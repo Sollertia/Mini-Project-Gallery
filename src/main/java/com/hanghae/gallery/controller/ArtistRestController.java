@@ -30,19 +30,18 @@ public class ArtistRestController {
     // userdetails로 정보 가져와야합니다 (수정하려는 작가 == 현재 유저)
     //작가 프로필 수정
     @PostMapping("/artist/update")
-    public StatusMsgDto updateArtistInfo(@Validated @RequestBody ArtistInfoDto artistInfoDto,
-                                         User user, Errors errors){
+    public StatusMsgDto updateArtistInfo(@Validated @RequestBody ArtistInfoDto artistInfoDto, Errors errors){
 
         String newNickname = artistInfoDto.getNickname();
-        Artist artistId = artistRepository.findById(user.getId()).orElseThrow(()
+        Artist artist = artistRepository.findById(artistInfoDto.getId()).orElseThrow(()
         -> new NoFoundException("해당 작가를 찾을 수 없습니다."));
-        if (artistId.getNickname().equals(newNickname) || errors.hasErrors()){
-            return new StatusMsgDto(StatusEnum.STATUS_FAILE,artistInfoDto);
+        if (artist.getNickname().equals(newNickname) || errors.hasErrors()){
+            return new StatusMsgDto(StatusEnum.STATUS_FAILE,artist);
         }
 
-        Artist artist = artistService.updateInfo(artistInfoDto, user);
+        Artist newartist = artistService.updateInfo(artistInfoDto, artist);
 
-        return new StatusMsgDto(StatusEnum.STATUS_SUCCESS,artist);
+        return new StatusMsgDto(StatusEnum.STATUS_SUCCESS,newartist);
 
     }
 }
