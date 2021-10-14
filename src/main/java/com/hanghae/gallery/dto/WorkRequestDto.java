@@ -1,5 +1,6 @@
 package com.hanghae.gallery.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,9 +10,10 @@ import javax.validation.constraints.NotNull;
 
 //클라이언트 -> 서버 받을 때
 @Getter
-@NoArgsConstructor
+@AllArgsConstructor
 public class WorkRequestDto {
 
+    private Long id;
     @NotBlank
     private String image;
 

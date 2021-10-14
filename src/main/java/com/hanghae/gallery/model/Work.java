@@ -15,7 +15,7 @@ public class Work{
     private Long id;
 
     @Column()
-    private String workTitle="무제";
+    private String workTitle;
 
     @Column(nullable = false)
     private String workSize;
@@ -33,7 +33,7 @@ public class Work{
     private String image;
 
     @Column(nullable = false)
-    private Long artistId;
+    private Long artistId=12L;
 
     //클라이언트 -> 서버 (작가id없음)
     public void workSaveInfo(WorkRequestDto workRequestDto){
@@ -42,7 +42,8 @@ public class Work{
         this.workSize = workRequestDto.getWorkSize();
         this.image = workRequestDto.getImage();
         this.workMaterial = workRequestDto.getWorkMaterial();
-        this.workTitle = workRequestDto.getWorkTitle();
+        if (workRequestDto.getWorkTitle().equals(""))
+        this.workTitle = "무제";
     }
 
 }
