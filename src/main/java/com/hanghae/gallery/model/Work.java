@@ -14,7 +14,7 @@ public class Work{
     @Id
     private Long id;
 
-    @Column(unique = false)
+    @Column()
     private String workTitle="무제";
 
     @Column(nullable = false)
