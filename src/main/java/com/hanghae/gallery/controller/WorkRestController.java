@@ -1,12 +1,15 @@
 package com.hanghae.gallery.controller;
 
 import com.hanghae.gallery.dto.FollowDto;
+import com.hanghae.gallery.dto.StatusMsgDto;
 import com.hanghae.gallery.dto.WorkRequestDto;
 import com.hanghae.gallery.exception.NoFoundException;
 import com.hanghae.gallery.model.*;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.WorkRepository;
 import com.hanghae.gallery.service.WorkService;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -45,16 +48,29 @@ public class WorkRestController {
 
     //작품 수정
     @PostMapping("/work/update")
-    public void update(@RequestBody WorkRequestDto workRequestDto,@RequestParam Long id){
-        workService.updateWork(workRequestDto,id);
+    public StatusMsgDto update(@Validated @RequestBody WorkRequestDto workRequestDto,@RequestParam Long id,Errors errors){
+        if (errors.hasErrors()){
+            return new StatusMsgDto(StatusEnum.STATUS_FAILE,workRequestDto);
+        }else{
+            workService.updateWork(workRequestDto,id);
+            return new StatusMsgDto(StatusEnum.STATUS_SUCCESS,workRequestDto);
+        }
+
+
     }
 
     //작품 등록
     @PostMapping("/work/insert")
-    public  void saveWork(@RequestBody WorkRequestDto workRequestDto){
-        Work work = new Work();
-        work.workSaveInfo(workRequestDto);
-        workRepository.save(work);
+    public StatusMsgDto saveWork(@Validated @RequestBody WorkRequestDto workRequestDto, Errors errors){
+        if(errors.hasErrors()){
+            return new StatusMsgDto(StatusEnum.STATUS_FAILE,workRequestDto);
+        }else{
+            Work work = new Work();
+            work.workSaveInfo(workRequestDto);
+            workRepository.save(work);
+            return new StatusMsgDto(StatusEnum.STATUS_SUCCESS,workRequestDto);
+        }
+
     }
 
     //작품 삭제
