@@ -1,10 +1,11 @@
 package com.hanghae.gallery.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hanghae.gallery.dto.LoginRequestDto;
 import com.hanghae.gallery.dto.SignupRequestDto;
+import com.hanghae.gallery.dto.StatusMsgDto;
 import com.hanghae.gallery.exception.UserSignException;
 import com.hanghae.gallery.model.Artist;
+import com.hanghae.gallery.model.StatusEnum;
 import com.hanghae.gallery.model.User;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.UserRepository;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
@@ -35,13 +35,27 @@ public class UserController {
 
     // 회원 가입 요청 처리
     @PostMapping("/user/signup")
-    public void registerUser(@Valid @RequestBody SignupRequestDto signupRequestDto, Errors errors) {
-        String errorMessage;
-        for (FieldError error : errors.getFieldErrors()) {
-            errorMessage = error.getField();
-            throw new UserSignException(errorMessage);
+    public StatusMsgDto registerUser(@Valid @RequestBody SignupRequestDto signupRequestDto, Errors errors) {
+        List<String> errorMessage=new ArrayList<>();
+
+        if (errors.hasErrors()){
+            for (FieldError error : errors.getFieldErrors()) {
+                errorMessage.add(error.getField());
+            }
         }
-        userService.registerUser(signupRequestDto);
+        // 패스워드 속에 아이디 값 중복 확인
+        if(signupRequestDto.getPassword().contains(signupRequestDto.getUsername())) {
+            errorMessage.add("password 안에 username이 있어서는 안됩니다.");
+        }
+
+        //회원가입 성공
+        if (errorMessage.isEmpty()){
+            Object obj = userService.registerUser(signupRequestDto);
+            return new StatusMsgDto(StatusEnum.STATUS_SUCCESS,obj);
+        }else {
+            return new StatusMsgDto(StatusEnum.STATUS_FAILE,signupRequestDto);
+        }
+
     }
 
     // 로그인 중복 처리
@@ -115,6 +129,8 @@ public class UserController {
 
         }
     }
+
+
     // 카카오 유저 정보 받기
     @GetMapping("/user/kakao/callback")
     public String kakaoLogin(@RequestParam String code) throws IOException {

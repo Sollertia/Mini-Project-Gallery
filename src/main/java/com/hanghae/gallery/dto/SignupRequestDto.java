@@ -23,6 +23,6 @@ public class SignupRequestDto {
     @Size(min = 4, message = "nickname 최소 4자 이상입니다.")
     private String nickname;
 
-    @NotBlank(message = "username 값이 비어있지 않아야 합니다.")
+    @NotBlank(message = " 값이 비어있지 않아야 합니다.")
     private String isArtist;
 }
