@@ -47,7 +47,7 @@
 //        work.setWorkMade("제작일");
 //        work.setWorkSize("작품크기");
 //        work.setWorkTitle("제목");
-//        work.setImage("이미지");
+//        work.setImage("고양이.jpg");
 //        work.setWorkMaterial("재료");
 //        work.setArtistId(testArtist.getId());
 //        workRepository.save(work);
