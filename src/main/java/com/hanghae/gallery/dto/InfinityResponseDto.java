@@ -18,15 +18,14 @@ public class InfinityResponseDto {
     private String workMade;
     private Long artistId;
 
-    @Value("${file.dir}")
-    private String fileDir;
 
     public InfinityResponseDto(Work work){
         this.id = work.getId();
         this.workDesc = work.getWorkDesc();
         this.workMade = work.getWorkMade();
         this.workSize = work.getWorkSize();
-        this.image = fileDir+work.getImage();
+        this.image = "http://3.35.218.192/image/" +work.getImage();
+        //this.image="/img/filename";
         this.workMaterial = work.getWorkMaterial();
         this.workTitle = work.getWorkTitle();
         this.artistId = work.getArtistId();

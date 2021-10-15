@@ -29,7 +29,7 @@ public class ImgStore {
 
         String originalFilename = multipartFile.getOriginalFilename();
         String storedFileName = createStoredFileName(originalFilename);
-        multipartFile.transferTo(new File(getFullPath(storedFileName)));
+        multipartFile.transferTo(new File("/home/ubuntu/image/"+storedFileName));
         return new UploadFile(originalFilename, storedFileName);
     }
     // 저장하는 파일 이름을 만들어준다 - 중복되면 덮어씌어지기 때문

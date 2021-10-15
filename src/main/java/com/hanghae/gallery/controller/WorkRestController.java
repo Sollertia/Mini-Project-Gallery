@@ -87,8 +87,9 @@ public class WorkRestController {
     }
 
     //작품 등록
-    @PostMapping(value = "/work/insert", consumes = {"multipart/form-data"})
+    @PostMapping(value = "/work/insert")
     public StatusMsgDto saveWork(@Validated @RequestBody WorkRequestDto workRequestDto, Errors errors) throws IOException {
+
         if(errors.hasErrors()){
             return new StatusMsgDto(StatusEnum.STATUS_FAILE,workRequestDto);
         }else{

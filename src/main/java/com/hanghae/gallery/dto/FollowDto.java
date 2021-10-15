@@ -32,7 +32,7 @@ public class FollowDto {
         this.workDesc = work.getWorkDesc();
         this.workMade = work.getWorkMade();
         this.workSize = work.getWorkSize();
-        this.image = fileDir + work.getImage();
+        this.image = "${file.dir}" + work.getImage();
         this.workMaterial = work.getWorkMaterial();
         this.workTitle = work.getWorkTitle();
 
