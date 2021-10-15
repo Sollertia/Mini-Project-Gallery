@@ -51,5 +51,4 @@ public class User {
         this.kakaoId = kakaoId;
         this.role = role;
     }
-
 }
