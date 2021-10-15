@@ -3,18 +3,18 @@ package com.hanghae.gallery.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-
+@Setter // 이미지 이름 등록
 //클라이언트 -> 서버 받을 때
 @Getter
 @AllArgsConstructor
 public class WorkRequestDto {
-
     private Long id;
-    @NotBlank
+    // 작품 등록시 이미지 이름 필요없음, 수정 시에도 무조건 필요하지는 않음.
     private String image;
 
     private String workTitle;

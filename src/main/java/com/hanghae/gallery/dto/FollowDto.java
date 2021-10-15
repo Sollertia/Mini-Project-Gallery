@@ -5,6 +5,7 @@ import com.hanghae.gallery.model.Artist;
 import com.hanghae.gallery.model.FollowEnum;
 import com.hanghae.gallery.model.Work;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
 
 @Getter
 public class FollowDto {
@@ -19,15 +20,19 @@ public class FollowDto {
     private String nickname;
     private String artistDesc;
     private String code;
-    private  boolean isUser;
+    private boolean isUser;
 
+
+    // 이미지 저장소 주소
+    @Value("${file.dir}")
+    private String fileDir;
 
 
     public FollowDto(Artist artist, Work work, FollowEnum responseCodeSet) {
         this.workDesc = work.getWorkDesc();
         this.workMade = work.getWorkMade();
         this.workSize = work.getWorkSize();
-        this.image = work.getImage();
+        this.image = fileDir + work.getImage();
         this.workMaterial = work.getWorkMaterial();
         this.workTitle = work.getWorkTitle();
 

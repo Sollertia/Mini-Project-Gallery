@@ -4,6 +4,7 @@ import com.hanghae.gallery.model.Work;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 @Getter
 @NoArgsConstructor
@@ -16,12 +17,15 @@ public class InfinityResponseDto {
     private String workMaterial;
     private String workMade;
 
+    @Value("${file.dir}")
+    private String fileDir;
+
     public InfinityResponseDto(Work work){
         this.id = work.getId();
         this.workDesc = work.getWorkDesc();
         this.workMade = work.getWorkMade();
         this.workSize = work.getWorkSize();
-        this.image = work.getImage();
+        this.image = fileDir+work.getImage();
         this.workMaterial = work.getWorkMaterial();
         this.workTitle = work.getWorkTitle();
     }
