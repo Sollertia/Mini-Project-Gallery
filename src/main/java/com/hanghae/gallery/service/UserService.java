@@ -23,6 +23,7 @@ public class UserService {
 
     // 회원가입 - 아티스트와 유저 비교해서 회원 가입
     public Object registerUser(SignupRequestDto signupRequestDto) {
+        System.out.println("확인");
         RoleEnum role;
         String username = signupRequestDto.getUsername();
         // 패스워드 인코딩

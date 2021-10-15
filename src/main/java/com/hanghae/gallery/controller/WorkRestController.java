@@ -79,22 +79,23 @@ public class WorkRestController {
         return statusMsgDto;
     }
 
+    // 저장된 이미지 반환 - 작품 등록할 때 사용
+    @PostMapping("/image")
+    public String imgUpload(@RequestPart(value="file") MultipartFile file) throws IOException{
+        UploadFile uploadFile = imgStore.storeFile(file);
+        return uploadFile.getStoredFileName();
+    }
+
     //작품 등록
-    @PostMapping("/work/insert")
-    public StatusMsgDto saveWork(@Validated @RequestPart(value="key", required=false) WorkRequestDto workRequestDto, Errors errors,
-                                 @RequestPart(value="file", required=true) MultipartFile file) throws IOException {
+    @PostMapping(value = "/work/insert", consumes = {"multipart/form-data"})
+    public StatusMsgDto saveWork(@Validated @RequestBody WorkRequestDto workRequestDto, Errors errors) throws IOException {
         if(errors.hasErrors()){
             return new StatusMsgDto(StatusEnum.STATUS_FAILE,workRequestDto);
         }else{
-            // 이미지 EC2 image폴더에 저장
-            UploadFile uploadFile = imgStore.storeFile(file);
-
             Work work = new Work();
-            // 작품 이름 저장
-            workRequestDto.setImage(uploadFile.getStoredFileName());
             work.workSaveInfo(workRequestDto);
             workRepository.save(work);
-            workRequestDto.setImage(fileDir+uploadFile.getStoredFileName());
+            workRequestDto.setImage(fileDir+workRequestDto.getImage()); // 풀 경로 넣어주기
             return new StatusMsgDto(StatusEnum.STATUS_SUCCESS,workRequestDto);
         }
 

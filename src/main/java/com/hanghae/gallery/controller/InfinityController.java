@@ -23,19 +23,18 @@ public class InfinityController {
 
     // 보여주는 작품의 개수 지정
     public static final int PageSize = 6;
-    // 응답 list 객체 생성
-    List<InfinityResponseDto> data = new ArrayList<>();
 
 
     // 모든 작품을 보여주는 메인 페이지 컨트롤러 - 최초 접근시 size 값을 받아 데이터 가공
     @GetMapping("/")
     public List<InfinityResponseDto> main(@PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = PageSize) Pageable pageable){
-
+        // 응답 list 객체 생성
+        List<InfinityResponseDto> data = new ArrayList<>();
         Page<Work> list = infinityService.main(pageable);
-
-        for (Work ls : list.getContent()){
-                data.add(new InfinityResponseDto(ls));
+        for (int i = 0; i<PageSize; i++){
+            data.add(new InfinityResponseDto(list.getContent().get(i)));
         }
+        System.out.println(data);
         return data;
     }
 
@@ -44,9 +43,11 @@ public class InfinityController {
     public List<InfinityResponseDto> mainInfinity(@RequestParam Long lastWorkId,
                                             @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = PageSize) Pageable pageable){
 
+        // 응답 list 객체 생성
+        List<InfinityResponseDto> data = new ArrayList<>();
         Page<Work> list = infinityService.mainInfinity(lastWorkId,pageable);
-        for (Work ls : list.getContent()){
-            data.add(new InfinityResponseDto(ls));
+        for (int i = 0; i<PageSize; i++){
+            data.add(new InfinityResponseDto(list.getContent().get(i)));
         }
         return data;
     }
@@ -56,9 +57,11 @@ public class InfinityController {
     public List<InfinityResponseDto> artist(@RequestParam Long artistId,
                                       @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = PageSize) Pageable pageable){
 
+        // 응답 list 객체 생성
+        List<InfinityResponseDto> data = new ArrayList<>();
         Page<Work> list = infinityService.artist(artistId,pageable);
-        for (Work ls : list.getContent()){
-            data.add(new InfinityResponseDto(ls));
+        for (int i = 0; i<PageSize; i++){
+            data.add(new InfinityResponseDto(list.getContent().get(i)));
         }
         return data;
     }
@@ -68,9 +71,11 @@ public class InfinityController {
     public List<InfinityResponseDto> artistInfinity(@RequestParam Long artistId, @RequestParam Long lastWorkId,
                                               @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = PageSize) Pageable pageable){
 
+        // 응답 list 객체 생성
+        List<InfinityResponseDto> data = new ArrayList<>();
         Page<Work> list = infinityService.artistInfinity(artistId,lastWorkId,pageable);
-        for (Work ls : list.getContent()){
-            data.add(new InfinityResponseDto(ls));
+        for (int i = 0; i<PageSize; i++){
+            data.add(new InfinityResponseDto(list.getContent().get(i)));
         }
         return data;
     }
