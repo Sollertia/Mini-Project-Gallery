@@ -16,6 +16,7 @@ public class InfinityResponseDto {
     private String workSize;
     private String workMaterial;
     private String workMade;
+    private Long artistId;
 
     @Value("${file.dir}")
     private String fileDir;
@@ -28,6 +29,7 @@ public class InfinityResponseDto {
         this.image = fileDir+work.getImage();
         this.workMaterial = work.getWorkMaterial();
         this.workTitle = work.getWorkTitle();
+        this.artistId = work.getArtistId();
     }
 
 }

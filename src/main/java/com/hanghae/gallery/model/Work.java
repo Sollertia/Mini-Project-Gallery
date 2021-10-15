@@ -2,9 +2,12 @@ package com.hanghae.gallery.model;
 import com.hanghae.gallery.dto.WorkRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 
+@Setter // 테스트 데이터 용
 @NoArgsConstructor
 @Getter
 @Entity
@@ -29,7 +32,8 @@ public class Work{
     @Column(nullable = false)
     private String workDesc;
 
-    @Column(nullable = false, unique = true)
+    //@Column(nullable = false, unique = true)
+    @Column(nullable = false) // 테스터 데이터 용
     private String image;
 
     @Column(nullable = false)
