@@ -47,7 +47,7 @@
 //        work.setWorkMade("제작일");
 //        work.setWorkSize("작품크기");
 //        work.setWorkTitle("제목");
-//        work.setImage("고양이.jpg");
+//        work.setImage("https://sollertia.s3.ap-northeast-2.amazonaws.com/image/2002f4b1-7e90-45fd-8078-90d5ecd5d6cc111.png");
 //        work.setWorkMaterial("재료");
 //        work.setArtistId(testArtist.getId());
 //        workRepository.save(work);
