@@ -1,17 +1,12 @@
 package com.hanghae.gallery.service;
 
 import com.hanghae.gallery.dto.WorkRequestDto;
-import com.hanghae.gallery.exception.NoFoundException;
 import com.hanghae.gallery.model.*;
 import com.hanghae.gallery.repository.FollowRepository;
 import com.hanghae.gallery.repository.WorkRepository;
-import com.hanghae.gallery.util.ImgStore;
-import com.hanghae.gallery.util.UploadFile;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.transaction.Transactional;
-import java.io.File;
+
 import java.io.IOException;
 import java.util.Optional;
 
@@ -20,35 +15,18 @@ public class WorkService {
 
     private final WorkRepository workRepository;
     private final FollowRepository followRepository;
-    private final ImgStore imgStore;
 
 
-    public WorkService(WorkRepository workRepository,FollowRepository followRepository,ImgStore imgStore){
+    public WorkService(WorkRepository workRepository,FollowRepository followRepository){
         this.followRepository = followRepository;
         this.workRepository = workRepository;
-        this.imgStore = imgStore;
     }
 
     //작품 수정
     @Transactional
-    public  Optional<Work> updateWork(WorkRequestDto workRequestDto, MultipartFile img) throws IOException {
+    public  Optional<Work> updateWork(WorkRequestDto workRequestDto){
         Optional<Work> work = workRepository.findById(workRequestDto.getId());
         if (work.isPresent()){
-            // 기존 작품 삭제
-            File file = new File(imgStore.getFullPath(work.get().getImage()));
-            if (file.exists()) {
-                if (file.delete()) {
-                } else {
-                    throw new NoFoundException("파일 삭제 실패");
-                }
-            } else {
-                throw new NoFoundException("파일이 존재하지 않음");
-            }
-
-            // 새롭게 수정된 작품 등록
-            UploadFile uploadFile = imgStore.storeFile(img);
-            // 새롭게 수정된 작품 이름 DB저장
-            workRequestDto.setImage(uploadFile.getStoredFileName());
             work.get().workSaveInfo(workRequestDto);
             return work;
         }else {

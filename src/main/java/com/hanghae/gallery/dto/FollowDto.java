@@ -1,11 +1,10 @@
 package com.hanghae.gallery.dto;
 
 import com.hanghae.gallery.model.Artist;
-
 import com.hanghae.gallery.model.FollowEnum;
 import com.hanghae.gallery.model.Work;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
+
 
 @Getter
 public class FollowDto {
@@ -23,16 +22,13 @@ public class FollowDto {
     private boolean isUser;
 
 
-    // 이미지 저장소 주소
-    @Value("${file.dir}")
-    private String fileDir;
 
 
     public FollowDto(Artist artist, Work work, FollowEnum responseCodeSet) {
         this.workDesc = work.getWorkDesc();
         this.workMade = work.getWorkMade();
         this.workSize = work.getWorkSize();
-        this.image = "${file.dir}" + work.getImage();
+        this.image = work.getImage();
         this.workMaterial = work.getWorkMaterial();
         this.workTitle = work.getWorkTitle();
 

@@ -45,8 +45,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.5.4'
 
     // AWS S3
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.5.RELEASE'
-
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')
+    implementation 'com.amazonaws:aws-java-sdk-s3'
 
 }
 

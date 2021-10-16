@@ -24,8 +24,7 @@ public class InfinityResponseDto {
         this.workDesc = work.getWorkDesc();
         this.workMade = work.getWorkMade();
         this.workSize = work.getWorkSize();
-        this.image = "http://3.35.218.192/image/" +work.getImage();
-        //this.image="/img/filename";
+        this.image = work.getImage();
         this.workMaterial = work.getWorkMaterial();
         this.workTitle = work.getWorkTitle();
         this.artistId = work.getArtistId();
