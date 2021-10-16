@@ -22,7 +22,7 @@ public class InfinityController {
     private final InfinityService infinityService;
 
     // 보여주는 작품의 개수 지정
-    public static final int PageSize = 6;
+    public static final int PageSize = 21;
 
     // 모든 작품을 보여주는 메인 페이지 컨트롤러 - 최초 접근시 size 값을 받아 데이터 가공
     @GetMapping("/")
@@ -33,7 +33,6 @@ public class InfinityController {
         for (int i = 0; i<PageSize; i++){
             data.add(new InfinityResponseDto(list.getContent().get(i)));
         }
-        System.out.println(data);
         return data;
     }
 
