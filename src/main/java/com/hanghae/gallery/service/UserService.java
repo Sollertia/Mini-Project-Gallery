@@ -1,10 +1,8 @@
 package com.hanghae.gallery.service;
 
 import com.hanghae.gallery.dto.SignupRequestDto;
-import com.hanghae.gallery.exception.UserSignException;
 import com.hanghae.gallery.model.Artist;
 import com.hanghae.gallery.model.RoleEnum;
-import com.hanghae.gallery.model.StatusEnum;
 import com.hanghae.gallery.model.User;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.UserRepository;
@@ -23,7 +21,6 @@ public class UserService {
 
     // 회원가입 - 아티스트와 유저 비교해서 회원 가입
     public Object registerUser(SignupRequestDto signupRequestDto) {
-        System.out.println("확인");
         RoleEnum role;
         String username = signupRequestDto.getUsername();
         // 패스워드 인코딩

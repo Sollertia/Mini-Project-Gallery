@@ -2,11 +2,9 @@ package com.hanghae.gallery.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Setter // 이미지 이름 등록
 //클라이언트 -> 서버 받을 때

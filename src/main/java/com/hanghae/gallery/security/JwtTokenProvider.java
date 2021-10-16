@@ -1,6 +1,7 @@
 package com.hanghae.gallery.security;
 
 import com.hanghae.gallery.model.RoleEnum;
+import com.hanghae.gallery.repository.ArtistRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
@@ -18,6 +20,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
+
+    private final ArtistRepository artistRepository;
 
     private String secretKey = "Gallery"; // 암호 키 설정
     SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256; // 알고리즘 선택
@@ -52,14 +56,19 @@ public class JwtTokenProvider {
     // 토큰에 숨겨져 있는 회원의 정보를 추출해와 UserDetails 객체에 담은 후 UsernamePasswordAuthenticationToken 이용해서 Authentication에 담겨서
     // SecurityContextHolder.getContext에 최종적으로 담겨서 로그아웃 하기 전까지 계속 사용되어진다.
     public Authentication getAuthentication(String token) {
+        // 유저인지 아티스트 인지 구분 해야한다.
+        String name = getUserPk(token); // 현재 들어온 token의 이름을 구해온다.
+        if(artistRepository.findByUsername(name).isPresent()){ // 아티스트로 로그인 했을 경우
+            UserDetails userDetails = userDetailsService.loadArtistByArtistname(this.getUserPk(token));
+            return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        }
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     // 토큰에서 회원 정보 추출
     public String getUserPk(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-    }
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();}
 
     // Request의 Header에서 token 값을 가져옴. "X-AUTH-TOKEN" : "TOKEN값'
     public String resolveToken(HttpServletRequest request) {

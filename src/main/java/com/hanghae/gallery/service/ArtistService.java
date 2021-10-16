@@ -4,7 +4,6 @@ package com.hanghae.gallery.service;
 import com.hanghae.gallery.dto.ArtistInfoDto;
 import com.hanghae.gallery.exception.NoFoundException;
 import com.hanghae.gallery.model.Artist;
-import com.hanghae.gallery.model.User;
 import com.hanghae.gallery.repository.ArtistRepository;
 import org.springframework.stereotype.Service;
 

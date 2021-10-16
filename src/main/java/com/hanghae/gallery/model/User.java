@@ -1,7 +1,8 @@
 package com.hanghae.gallery.model;
-import com.hanghae.gallery.security.UserDetailsImpl;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
