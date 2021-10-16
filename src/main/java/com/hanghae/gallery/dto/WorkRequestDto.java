@@ -14,7 +14,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class WorkRequestDto {
     private Long id;
-    // 작품 등록시 이미지 이름 필요없음, 수정 시에도 무조건 필요하지는 않음.
+
+    @NotBlank
     private String image;
 
     private String workTitle;

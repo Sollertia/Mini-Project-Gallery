@@ -20,8 +20,6 @@ public class WorkResponseDto {
     private String workMade;
     private Long artistId;
 
-    @Value("${file.dir}")
-    private String fileDir;
 
     public WorkResponseDto(Work work){
         this.id = work.getId();
@@ -29,7 +27,7 @@ public class WorkResponseDto {
         this.workDesc = work.getWorkDesc();
         this.workMade = work.getWorkMade();
         this.workSize = work.getWorkSize();
-        this.image = fileDir+work.getImage();
+        this.image = work.getImage();
         this.workMaterial = work.getWorkMaterial();
         this.workTitle = work.getWorkTitle();
     }

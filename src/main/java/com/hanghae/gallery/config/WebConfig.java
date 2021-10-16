@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer{
         public void addCorsMappings(CorsRegistry registry) {
             // url 및 method 접근 풀기
             registry.addMapping("/**")
-                    //.allowedOrigins("http://localhost:3000","S3 호스팅 주소") // 배포 전
+                    //.allowedOrigins("S3 호스팅 주소") // 배포 전
                     .allowedOrigins("http://localhost:3000") // react 서버 허용
                     .allowedMethods(
                             HttpMethod.GET.name(),
