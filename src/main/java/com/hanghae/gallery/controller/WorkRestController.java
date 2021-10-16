@@ -6,7 +6,6 @@ import com.hanghae.gallery.dto.FollowDto;
 import com.hanghae.gallery.dto.StatusMsgDto;
 import com.hanghae.gallery.dto.WorkRequestDto;
 import com.hanghae.gallery.exception.NoFoundException;
-import com.hanghae.gallery.exception.UserSignException;
 import com.hanghae.gallery.model.*;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.WorkRepository;
@@ -16,7 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import java.io.IOException;
 import java.util.Optional;
 
 @RestController
@@ -85,22 +84,13 @@ public class WorkRestController {
 
     //작품 등록
     @PostMapping(value = "/work/insert")
-    public StatusMsgDto saveWork(@Validated @RequestBody WorkRequestDto workRequestDto,
-             @AuthenticationPrincipal UserDetailsImpl userDetails , Errors errors) {
-
+    public StatusMsgDto saveWork(@Validated @RequestBody WorkRequestDto workRequestDto, Errors errors) {
 
         if(errors.hasErrors()){
             return new StatusMsgDto(StatusEnum.STATUS_FAILE,workRequestDto);
         }else{
             Work work = new Work();
             work.workSaveInfo(workRequestDto);
-
-            // 작품등록은 현재 로그인한 작가만 작성할 수 있기 때문에 현재 로그인한 작가의 id를 가져와서 Work의 artistID에 등록해준다.
-            //현재 userDetails 에 작가의 id값이 없어서 찾아온다. 리팩토링이 필요한 부분
-            Artist arst = artistRepository.findByUsername(userDetails.getUsername()).orElseThrow(
-                    ()-> new UserSignException("해당 작가가 없습니다.")
-            );
-            work.setArtistId(arst.getId());
             workRepository.save(work);
             return new StatusMsgDto(StatusEnum.STATUS_SUCCESS,workRequestDto);
         }
