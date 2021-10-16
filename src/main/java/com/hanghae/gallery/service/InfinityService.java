@@ -19,6 +19,7 @@ public class InfinityService {
      // 메인
     @Transactional
     public Page<Work> main(Pageable pageable) {
+
         return infinityRepository.findAll(pageable);
     }
 

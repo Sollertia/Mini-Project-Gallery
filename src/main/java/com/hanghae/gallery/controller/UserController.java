@@ -6,7 +6,6 @@ import com.hanghae.gallery.dto.StatusMsgDto;
 import com.hanghae.gallery.exception.UserSignException;
 import com.hanghae.gallery.model.Artist;
 import com.hanghae.gallery.model.StatusEnum;
-import com.hanghae.gallery.model.RoleEnum;
 import com.hanghae.gallery.model.User;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.UserRepository;
@@ -152,5 +151,6 @@ public class UserController {
 
         return all;
     }
+
 }
 

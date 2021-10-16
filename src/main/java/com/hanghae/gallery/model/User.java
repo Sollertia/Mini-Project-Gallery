@@ -1,4 +1,5 @@
 package com.hanghae.gallery.model;
+import com.hanghae.gallery.security.UserDetailsImpl;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -28,7 +29,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private RoleEnum role;
 
-    @Column(nullable = true)
+    @Column()
     private Long kakaoId;
 
     //테이블에 따로 저장 안됨
@@ -51,5 +52,6 @@ public class User {
         this.kakaoId = kakaoId;
         this.role = role;
     }
+
 
 }
