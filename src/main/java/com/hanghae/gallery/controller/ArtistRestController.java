@@ -5,7 +5,6 @@ import com.hanghae.gallery.dto.StatusMsgDto;
 import com.hanghae.gallery.exception.NoFoundException;
 import com.hanghae.gallery.model.Artist;
 import com.hanghae.gallery.model.StatusEnum;
-import com.hanghae.gallery.model.User;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.service.ArtistService;
 import org.springframework.validation.Errors;

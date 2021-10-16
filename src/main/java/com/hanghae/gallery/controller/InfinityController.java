@@ -78,8 +78,4 @@ public class InfinityController {
         }
         return data;
     }
-
-
-
-
 }

@@ -37,6 +37,7 @@ public class FollowDto {
 
         //만약 상세페이지에 설명 안들어가면 이부분 삭제
         this.artistDesc = artist.getArtistDesc();
+
         this.code = responseCodeSet.getCode();
         this.isUser = responseCodeSet.isUser();
 

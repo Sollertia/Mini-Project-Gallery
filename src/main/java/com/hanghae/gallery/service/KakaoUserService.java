@@ -39,6 +39,7 @@ public class KakaoUserService {
 // 2. "액세스 토큰"으로 "카카오 사용자 정보" 가져오기
         KakaoUserInfoDto kakaoUserInfo = getKakaoUserInfo(accessToken);
 
+        //-------------------------------------------------------------------------------------
 // 3. "카카오 사용자 정보"로 필요시 회원가입
         return registerKakaoUserIfNeeded(kakaoUserInfo);
     }
@@ -100,7 +101,7 @@ public class KakaoUserService {
 
         return new KakaoUserInfoDto(id, nickname, email);
     }
-
+//-------------------------------------------------------------
     private User registerKakaoUserIfNeeded(KakaoUserInfoDto kakaoUserInfo) {
 // DB 에 중복된 Kakao Id 가 있는지 확인
         Long kakaoId = kakaoUserInfo.getId();

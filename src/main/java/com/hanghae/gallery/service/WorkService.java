@@ -40,6 +40,8 @@ public class WorkService {
         return Optional.ofNullable(followRepository.findByArtistAndUser(artist, user));
     }
 
+
+
     public FollowEnum codeSetHandler(Optional<Follow> follow, User user){
         if (user == null) { //비로그인 유저
             //("N","false")

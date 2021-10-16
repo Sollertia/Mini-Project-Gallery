@@ -9,7 +9,9 @@ import com.hanghae.gallery.exception.NoFoundException;
 import com.hanghae.gallery.model.*;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.WorkRepository;
+import com.hanghae.gallery.security.UserDetailsImpl;
 import com.hanghae.gallery.service.WorkService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +39,8 @@ public class WorkRestController {
 
     //작품 상세
     @GetMapping("/work/detail")
-    public FollowDto getWork(@RequestParam Long workId, User user) { // User user부분 나중에 Userdetails로 변경
+    public FollowDto getWork(@RequestParam Long workId, @AuthenticationPrincipal UserDetailsImpl userDetails) { // User user부분 나중에 Userdetails로 변경
+        User user = userDetails.getUser();
         Work work = workRepository.findById(workId).orElseThrow(()->
                 new NoFoundException("해당 작품을 찾을 수 없습니다."));
         Long artistId =work.getArtistId();
@@ -54,7 +57,7 @@ public class WorkRestController {
     //작품 수정
     @PostMapping("/work/update")
     public StatusMsgDto update(@Validated @RequestPart(value="key", required=false) WorkRequestDto workRequestDto,
-                               @RequestParam Long id, Errors errors) throws IOException {
+                               @RequestParam Long id, Errors errors) {
         StatusMsgDto statusMsgDto;
         //입력값이 옳지 않을 때
         if (errors.hasErrors()) {
@@ -81,7 +84,7 @@ public class WorkRestController {
 
     //작품 등록
     @PostMapping(value = "/work/insert")
-    public StatusMsgDto saveWork(@Validated @RequestBody WorkRequestDto workRequestDto, Errors errors) throws IOException {
+    public StatusMsgDto saveWork(@Validated @RequestBody WorkRequestDto workRequestDto, Errors errors) {
 
         if(errors.hasErrors()){
             return new StatusMsgDto(StatusEnum.STATUS_FAILE,workRequestDto);

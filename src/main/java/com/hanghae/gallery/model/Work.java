@@ -37,7 +37,7 @@ public class Work{
     private String image;
 
     @Column(nullable = false)
-    private Long artistId=12L;
+    private Long artistId;
 
     //클라이언트 -> 서버 (작가id없음)
     public void workSaveInfo(WorkRequestDto workRequestDto){

@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
-
+        //외부 서버에서 접근요청이 올 때 접근 허가해주는 로직
         @Override
         public void addCorsMappings(CorsRegistry registry) {
             // url 및 method 접근 풀기
