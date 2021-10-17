@@ -1,8 +1,10 @@
 package com.hanghae.gallery.dto;
 
 import com.hanghae.gallery.model.Work;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 @Getter
 @NoArgsConstructor

@@ -41,6 +41,7 @@ public class UserController {
     @PostMapping("/user/signup")
     public StatusMsgDto registerUser(@Valid @RequestBody SignupRequestDto signupRequestDto, Errors errors) {
         List<String> errorMessage=new ArrayList<>();
+        System.out.println("확인");
 
         if (errors.hasErrors()){
             for (FieldError error : errors.getFieldErrors()) {

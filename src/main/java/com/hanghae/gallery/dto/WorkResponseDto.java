@@ -3,6 +3,8 @@ package com.hanghae.gallery.dto;
 import com.hanghae.gallery.model.Work;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 //서버 -> 클라이언트 보낼 때
 @Getter

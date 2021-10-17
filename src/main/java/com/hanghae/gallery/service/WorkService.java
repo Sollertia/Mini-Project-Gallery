@@ -5,8 +5,9 @@ import com.hanghae.gallery.model.*;
 import com.hanghae.gallery.repository.FollowRepository;
 import com.hanghae.gallery.repository.WorkRepository;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
+
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
