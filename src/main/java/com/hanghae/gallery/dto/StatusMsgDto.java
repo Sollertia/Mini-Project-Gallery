@@ -2,7 +2,6 @@ package com.hanghae.gallery.dto;
 
 import com.hanghae.gallery.model.StatusEnum;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 
 @Getter

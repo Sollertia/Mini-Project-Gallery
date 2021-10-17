@@ -1,10 +1,8 @@
 package com.hanghae.gallery.service;
 
 import com.hanghae.gallery.dto.SignupRequestDto;
-import com.hanghae.gallery.exception.UserSignException;
 import com.hanghae.gallery.model.Artist;
 import com.hanghae.gallery.model.RoleEnum;
-import com.hanghae.gallery.model.StatusEnum;
 import com.hanghae.gallery.model.User;
 import com.hanghae.gallery.repository.ArtistRepository;
 import com.hanghae.gallery.repository.UserRepository;
